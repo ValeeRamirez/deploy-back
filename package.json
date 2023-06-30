@@ -10,7 +10,7 @@
     "@koa/cors": "^4.0.0",
     "bcrypt": "^5.1.0",
     "cors": "^2.8.5",
-    "dotenv": "^16.1.0",
+    "dotenv": "^16.3.1",
     "jsonwebtoken": "^9.0.0",
     "koa": "^2.14.2",
     "koa-body": "^6.0.1",
@@ -26,7 +26,7 @@
   },
   "scripts": {
     "start": "node src/index.js",
-    "dev": "nodemon src/index.js", 
+    "dev": "nodemon src/index.js",
     "deploy": "node start.js",
     "db:migrate": "sequelize-cli db:migrate",
     "db:seed": "sequelize-cli db:seed:all",
