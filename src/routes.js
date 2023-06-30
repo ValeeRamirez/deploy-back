@@ -26,11 +26,11 @@ router.use('/recursos', recursos.routes());
 router.use('/dados', dados.routes());
 router.use(authRoutes.routes());
 
-router.use('/usuarios', usuarios.routes()); //TEMPORAL
+// router.use('/usuarios', usuarios.routes()); //TEMPORAL
 
 //desde esta linea todas las rutas requeriran un jwt
 router.use(jwtMiddleware({ secret: process.env.JWT_SECRET }));
-// router.use('/usuarios', usuarios.routes());
+router.use('/usuarios', usuarios.routes());
 router.use('/scope-example', scopeProtectedRoutes.routes());
 
 module.exports = router;
