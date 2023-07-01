@@ -8,11 +8,11 @@ async function deploy(){
 
     // const { stdout: output2 } = await exec("yarn db:migrate:undo");
     // console.log("Eliminando bdd...");
-    // console.log(output2);
+    // // console.log(output2);
 
-    const { stdout: output3 } = await exec("yarn db:seed:undo");
-    console.log("Eliminando seeds...");
-    console.log(output3);
+    // const { stdout: output3 } = await exec("yarn db:seed:undo");
+    // console.log("Eliminando seeds...");
+    // console.log(output3);
 
 
     const { stdout: output4 } = await exec("yarn db:migrate");
