@@ -10,13 +10,13 @@ async function deploy(){
     console.log("Migrating database...");
     console.log(output2);
 
-    const { stdout: output3 } = await exec("yarn db:seed_undo");
+    // const { stdout: output3 } = await exec("yarn db:seed:undo");
+    // console.log("Seeding database...");
+    // console.log(output3);
+
+    const { stdout: output3 } = await exec("yarn db:seed");
     console.log("Seeding database...");
     console.log(output3);
-
-    const { stdout: output4 } = await exec("yarn db:seed");
-    console.log("Seeding database...");
-    console.log(output4);
 }
 
 deploy();
