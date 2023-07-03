@@ -1,9 +1,45 @@
+/**
+ * @swagger
+ * tags:
+ *   name: Jugador
+ *   description: API endpoints for managing jugadores
+ */
+
 const Router = require('koa-router');
 const { Casilla } = require('../models');
 const { Recurso } = require('../models');
 
 const router = new Router();
 
+/**
+ * @swagger
+ * /jugadores:
+ *   post:
+ *     summary: Create a new jugador
+ *     tags: [Jugadores]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Jugador'
+ *     responses:
+ *       '201':
+ *         description: Created
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Jugador'
+ *       '400':
+ *         description: Bad request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ */
 // crear jugador
 router.post('jugadors.create', '/', async (ctx) => {
   try {
@@ -16,6 +52,31 @@ router.post('jugadors.create', '/', async (ctx) => {
   }
 });
 
+/**
+ * @swagger
+ * /jugadores:
+ *   get:
+ *     summary: Get all jugadores
+ *     tags: [Jugadores]
+ *     responses:
+ *       '200':
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Jugador'
+ *       '400':
+ *         description: Bad request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ */
 // mostrar todos los jugadores
 router.get('jugadors.list', '/', async (ctx) => {
   try {
@@ -27,7 +88,36 @@ router.get('jugadors.list', '/', async (ctx) => {
     ctx.body = error;
   }
 });
-
+/**
+ * @swagger
+ * /jugadores/id/{id}:
+ *   get:
+ *     summary: Get jugador by ID
+ *     tags: [Jugadores]
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         description: ID of the jugador
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       '200':
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Jugador'
+ *       '400':
+ *         description: Bad request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ */
 // busca al jugador por la primary key
 router.get('jugadors.findby', '/id/:id', async (ctx) => {
   try {
@@ -39,6 +129,39 @@ router.get('jugadors.findby', '/id/:id', async (ctx) => {
     ctx.body = error;
   }
 });
+
+/**
+ * @swagger
+ * /jugadores/tipo/{tipo}:
+ *   get:
+ *     summary: Get jugadores by tipo
+ *     tags: [Jugadores]
+ *     parameters:
+ *       - name: tipo
+ *         in: path
+ *         description: Tipo of the jugadores
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       '200':
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Jugador'
+ *       '400':
+ *         description: Bad request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ */
 // busca todos los jugadores con un tipo determinado
 router.get('jugadors.show', '/tipo/:tipo', async (ctx) => {
   try {
@@ -50,6 +173,39 @@ router.get('jugadors.show', '/tipo/:tipo', async (ctx) => {
     ctx.body = error;
   }
 });
+
+/**
+ * @swagger
+ * /jugadores/jugadores_partida/{id_partida}:
+ *   get:
+ *     summary: Get jugadores by partida ID
+ *     tags: [Jugadores]
+ *     parameters:
+ *       - name: id_partida
+ *         in: path
+ *         description: ID of the partida
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       '200':
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Jugador'
+ *       '400':
+ *         description: Bad request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ */
 // busca muestra los jugadores que estan en una partida con el id de la partida
 router.get('jugadors.show', '/jugadores_partida/:id_partida', async (ctx) => {
   try {
@@ -61,6 +217,42 @@ router.get('jugadors.show', '/jugadores_partida/:id_partida', async (ctx) => {
     ctx.body = error;
   }
 });
+
+/**
+ * @swagger
+ * /jugadores/posicion/{id}:
+ *   get:
+ *     summary: Get jugador position by ID
+ *     tags: [Jugadores]
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         description: ID of the jugador
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       '200':
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   posicion:
+ *                     type: string
+ *       '400':
+ *         description: Bad request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ */
 // encontrar posicion de un jugador por su id
 router.get('jugadors.show', '/posicion/:id', async (ctx) => {
   try {
@@ -75,37 +267,40 @@ router.get('jugadors.show', '/posicion/:id', async (ctx) => {
     ctx.body = error;
   }
 });
-// //actualizar posicion de un jugador con su id
-// router.put("jugadors.update", "/posicion_update/:id", async (ctx) => {
-//     try {
-//         const { id } = ctx.params;
 
-//         const jugador = await ctx.orm.Jugador.findByPk(id);
-//         if (!jugador) {
-//             ctx.status = 404;
-//             ctx.body = { error: 'Jugador no encontrado' };
-//             return;
-//         }
-
-//         const posicionAntigua = jugador.posicion;
-//         const [x, y] = posicionAntigua
-//             .slice(1, -1) // Eliminar los paréntesis
-//             .split(",") // Dividir las coordenadas
-//             .map(coordenada => parseInt(coordenada)); // Convertir a números enteros
-
-//         const nuevaPosicion = `(${x + 1},${y + 1})`; //aqui se le puede sumar lo que queramos
-
-//         await jugador.update({ posicion: nuevaPosicion });
-//         ctx.status = 200;
-//         ctx.body = { message: 'Posición del jugador actualizada correctamente' };
-//     } catch (error) {
-//         ctx.status = 400;
-//         ctx.body = error;
-//     }
-// });
-
-// INTENTANDO ACTUALIZAR POSICION CON RECURSOS
-
+/**
+ * @swagger
+ * /jugadores/posicion_update/{id}:
+ *   put:
+ *     summary: Update jugador position by ID and handle casilla actions
+ *     tags: [Jugadores]
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         description: ID of the jugador
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       '200':
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *       '400':
+ *         description: Bad request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ */
 // actualizar posicion de un jugador con su id
 router.put('jugador.update', '/posicion_update/:id', async (ctx) => {
   try {

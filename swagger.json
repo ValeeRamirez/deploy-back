@@ -1,0 +1,15 @@
+{
+  "info": {
+    "title": "Documentación Dupla7",
+    "version": "3.0.0",
+    "description": "Documentación del juego creado por el grupo: Dupla7 para el ramo Tecnología y aplicaciones web 2023-1"
+  },
+  "basePath": "/doc-api",
+  "swagger": "2.0",
+  "paths": {},
+  "definitions": {},
+  "responses": {},
+  "parameters": {},
+  "securityDefinitions": {},
+  "tags": []
+}

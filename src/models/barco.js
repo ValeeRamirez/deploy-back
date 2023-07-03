@@ -64,5 +64,6 @@ module.exports = (sequelize, DataTypes) => {
     //   },
     // },
   });
+
   return Barco;
 };

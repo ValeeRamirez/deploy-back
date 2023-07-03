@@ -1,7 +1,36 @@
+/**
+ * @swagger
+ * tags:
+ *   name: Tableros
+ *   description: API endpoints for managing tableros
+ */
+
 const Router = require('koa-router');
 
 const router = new Router();
 
+/**
+ * @swagger
+ * /:
+ *   post:
+ *     summary: Create a new tablero
+ *     tags: [Tableros]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Tablero'
+ *     responses:
+ *       201:
+ *         description: Created
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Tablero'
+ *       400:
+ *         description: Bad Request
+ */
 // crear tablero
 router.post('tableros.create', '/', async (ctx) => {
   try {
@@ -14,6 +43,24 @@ router.post('tableros.create', '/', async (ctx) => {
   }
 });
 
+/**
+ * @swagger
+ * /:
+ *   get:
+ *     summary: Get all tableros
+ *     tags: [Tableros]
+ *     responses:
+ *       200:
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Tablero'
+ *       400:
+ *         description: Bad Request
+ */
 // //mostrar todos los tableroes
 router.get('tableros.list', '/', async (ctx) => {
   try {
@@ -26,6 +73,29 @@ router.get('tableros.list', '/', async (ctx) => {
   }
 });
 
+/**
+ * @swagger
+ * /id/{id}:
+ *   get:
+ *     summary: Get a tablero by its ID
+ *     tags: [Tableros]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID of the tablero
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Tablero'
+ *       400:
+ *         description: Bad Request
+ */
 // busca al tablero por la primary key
 router.get('tableros.findby', '/id/:id', async (ctx) => {
   try {
@@ -38,6 +108,31 @@ router.get('tableros.findby', '/id/:id', async (ctx) => {
   }
 });
 
+/**
+ * @swagger
+ * /partida/{id_partida}:
+ *   get:
+ *     summary: Get all tableros in a partida
+ *     tags: [Tableros]
+ *     parameters:
+ *       - in: path
+ *         name: id_partida
+ *         required: true
+ *         description: ID of the partida
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Tablero'
+ *       400:
+ *         description: Bad Request
+ */
 // busca muestra los tableroes que estan en una partida con el id de la partida
 router.get('tableros.show', '/partida/:id_partida', async (ctx) => {
   try {
@@ -49,47 +144,5 @@ router.get('tableros.show', '/partida/:id_partida', async (ctx) => {
     ctx.body = error;
   }
 });
-
-// // //encontrar posicion de un tablero por su id //No tiene
-// // router.get("tableros.show", "/posicion/:id", async (ctx) => {
-// //     try{
-// //         const tableros = await ctx.orm.tablero.findAll({where :{id: ctx.params.id},
-// //         attributes: ["posicion"]});
-// //         ctx.status = 200;
-// //         ctx.body = tableros;
-// //     } catch(error){
-// //         ctx.status = 400;
-// //         ctx.body = error;
-// //     }
-// // });
-
-// // //actualizar posicion de un tablero con su id //No tiene
-// // router.put("tableros.update", "/posicion_update/:id", async (ctx) => {
-// //     try {
-// //         const { id } = ctx.params;
-
-// //         const tablero = await ctx.orm.tablero.findByPk(id);
-// //         if (!tablero) {
-// //             ctx.status = 404;
-// //             ctx.body = { error: 'tablero no encontrado' };
-// //             return;
-// //         }
-
-// //         const posicionAntigua = tablero.posicion;
-// //         const [x, y] = posicionAntigua
-// //             .slice(1, -1) // Eliminar los paréntesis
-// //             .split(",") // Dividir las coordenadas
-// //             .map(coordenada => parseInt(coordenada)); // Convertir a números enteros
-
-// //         const nuevaPosicion = `(${x + 1},${y + 1})`; //aqui se le puede sumar lo que queramos
-
-// //         await tablero.update({ posicion: nuevaPosicion });
-// //         ctx.status = 200;
-// //         ctx.body = { message: 'Posición del tablero actualizada correctamente' };
-// //     } catch (error) {
-// //         ctx.status = 400;
-// //         ctx.body = error;
-// //     }
-// // });
 
 module.exports = router;

@@ -4,22 +4,20 @@ const { koaBody } = require('koa-body');
 const cors = require('@koa/cors');
 const router = require('./routes');
 const orm = require('./models');
+const swagger = require('./swagger'); // Import the Swagger configuration
 
-// Crear instancia de Koa
 const app = new Koa();
 
-// Exponer el orm a la app
 app.context.orm = orm;
-
-// Middlewares proporcionados por Koa
 app.use(cors());
 app.use(KoaLogger());
 app.use(koaBody());
 
-// koa router
 app.use(router.routes());
+app.use(router.allowedMethods());
 
-// Middleware personalizado. Encargado de dar respuesta "Hola Mundo!"
+swagger(app); // Add the Swagger middleware
+
 app.use((ctx, next) => {
   ctx.body = 'Hola Mundo! Saludos desde IIC2513';
 });

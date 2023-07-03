@@ -1,8 +1,40 @@
+/**
+ * @swagger
+ * tags:
+ *   name: Recursos
+ *   description: API endpoints for managing recursos
+ */
+
 const Router = require('koa-router');
 const { Jugador, Recurso } = require('../models');
 
 const router = new Router();
 
+// Create a new recurso
+/**
+ * @swagger
+ * /recursos/crear:
+ *   post:
+ *     tags:
+ *       - Recursos
+ *     summary: Create a new recurso
+ *     requestBody:
+ *       description: Recurso object
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Recurso'
+ *     responses:
+ *       '201':
+ *         description: Created
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Recurso'
+ *       '400':
+ *         description: Bad Request
+ */
 // crear recurso
 router.post('recursos.create', '/crear', async (ctx) => {
   try {
@@ -15,6 +47,26 @@ router.post('recursos.create', '/crear', async (ctx) => {
   }
 });
 
+// Get all recursos
+/**
+ * @swagger
+ * /recursos:
+ *   get:
+ *     tags:
+ *       - Recursos
+ *     summary: Get all recursos
+ *     responses:
+ *       '200':
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Recurso'
+ *       '400':
+ *         description: Bad Request
+ */
 // mostrar todos los recursoes
 router.get('recursos.list', '/', async (ctx) => {
   try {
@@ -27,6 +79,31 @@ router.get('recursos.list', '/', async (ctx) => {
   }
 });
 
+// Get a recurso by ID
+/**
+ * @swagger
+ * /recursos/id/{id}:
+ *   get:
+ *     tags:
+ *       - Recursos
+ *     summary: Get a recurso by ID
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: ID of the recurso
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       '200':
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Recurso'
+ *       '400':
+ *         description: Bad Request
+ */
 // busca al recurso por la primary key
 router.get('recursos.findby', '/id/:id', async (ctx) => {
   try {
@@ -38,6 +115,34 @@ router.get('recursos.findby', '/id/:id', async (ctx) => {
     ctx.body = error;
   }
 });
+
+// Get all recursos of a specific type
+/**
+ * @swagger
+ * /recursos/tipo/{tipo}:
+ *   get:
+ *     tags:
+ *       - Recursos
+ *     summary: Get all recursos of a specific type
+ *     parameters:
+ *       - name: tipo
+ *         in: path
+ *         required: true
+ *         description: Type of the recurso
+ *         schema:
+ *           type: string
+ *     responses:
+ *       '200':
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Recurso'
+ *       '400':
+ *         description: Bad Request
+ */
 // busca todos los recursoes con un tipo determinado
 router.get('recursos.show', '/tipo/:tipo', async (ctx) => {
   try {
@@ -49,6 +154,34 @@ router.get('recursos.show', '/tipo/:tipo', async (ctx) => {
     ctx.body = error;
   }
 });
+
+// Get all recursos of a jugador by jugador ID
+/**
+ * @swagger
+ * /recursos/jugador/{id_jugador}:
+ *   get:
+ *     tags:
+ *       - Recursos
+ *     summary: Get all recursos of a jugador by jugador ID
+ *     parameters:
+ *       - name: id_jugador
+ *         in: path
+ *         required: true
+ *         description: ID of the jugador
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       '200':
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Recurso'
+ *       '400':
+ *         description: Bad Request
+ */
 // muestra los recursos que son de un jugador con su id
 router.get('recursos.show', '/jugador/:id_jugador', async (ctx) => {
   try {
@@ -61,6 +194,45 @@ router.get('recursos.show', '/jugador/:id_jugador', async (ctx) => {
   }
 });
 
+// Count the number of recursos for a jugador
+/**
+ * @swagger
+ * /recursos/jugadores_cantidad/{id}:
+ *   get:
+ *     tags:
+ *       - Recursos
+ *     summary: Count the number of recursos for a jugador
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: ID of the jugador
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       '200':
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 recursos:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       tipo:
+ *                         type: string
+ *                       cantidad:
+ *                         type: integer
+ *       '400':
+ *         description: Bad Request
+ *       '404':
+ *         description: Jugador not found
+ *       '500':
+ *         description: Internal Server Error
+ */
 // Ruta para contar los recursos de un jugador
 router.get('recursos.countByPlayer', '/jugadores_cantidad/:id', async (ctx) => {
   try {
@@ -90,46 +262,5 @@ router.get('recursos.countByPlayer', '/jugadores_cantidad/:id', async (ctx) => {
     ctx.body = { mensaje: 'Error al contar los recursos del jugador' };
   }
 });
-
-// //encontrar posicion de un recurso por su id //No tiene
-// router.get("recursos.show", "/posicion/:id", async (ctx) => {
-//     try{
-//         const recursos = await ctx.orm.recurso.findAll({where :{id: ctx.params.id},
-//         attributes: ["posicion"]});
-//         ctx.status = 200;
-//         ctx.body = recursos;
-//     } catch(error){
-//         ctx.status = 400;
-//         ctx.body = error;
-//     }
-// });
-// //actualizar posicion de un recurso con su id
-// router.put("recursos.update", "/posicion_update/:id", async (ctx) => {
-//     try {
-//         const { id } = ctx.params;
-
-//         const recurso = await ctx.orm.recurso.findByPk(id);
-//         if (!recurso) {
-//             ctx.status = 404;
-//             ctx.body = { error: 'recurso no encontrado' };
-//             return;
-//         }
-
-//         const posicionAntigua = recurso.posicion;
-//         const [x, y] = posicionAntigua
-//             .slice(1, -1) // Eliminar los paréntesis
-//             .split(",") // Dividir las coordenadas
-//             .map(coordenada => parseInt(coordenada)); // Convertir a números enteros
-
-//         const nuevaPosicion = `(${x + 1},${y + 1})`; //aqui se le puede sumar lo que queramos
-
-//         await recurso.update({ posicion: nuevaPosicion });
-//         ctx.status = 200;
-//         ctx.body = { message: 'Posición del recurso actualizada correctamente' };
-//     } catch (error) {
-//         ctx.status = 400;
-//         ctx.body = error;
-//     }
-// });
 
 module.exports = router;

@@ -1,8 +1,44 @@
+/**
+ * @swagger
+ * tags:
+ *   name: Barcos
+ *   description: API endpoints for managing barcos
+ */
+
 const Router = require('koa-router');
 
 const router = new Router();
 
-// crear barco // si
+/**
+ * @swagger
+ * /barcos:
+ *   post:
+ *     summary: Create a new barco
+ *     tags: [Barcos]
+ *     requestBody:
+ *       description: Barco object
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/barco'
+ *     responses:
+ *       '201':
+ *         description: Created
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Barco'
+ *       '400':
+ *         description: Bad request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ */
 router.post('barcos.create', '/', async (ctx) => {
   try {
     const barco = await ctx.orm.Barco.create(ctx.request.body);
@@ -14,7 +50,31 @@ router.post('barcos.create', '/', async (ctx) => {
   }
 });
 
-// mostrar todas las barcos // si
+/**
+ * @swagger
+ * /barcos:
+ *   get:
+ *     summary: Get all barcos
+ *     tags: [Barcos]
+ *     responses:
+ *       '200':
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Barco'
+ *       '400':
+ *         description: Bad request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ */
 router.get('barcos.list', '/', async (ctx) => {
   try {
     const barcos = await ctx.orm.Barco.findAll();
@@ -26,7 +86,36 @@ router.get('barcos.list', '/', async (ctx) => {
   }
 });
 
-// busca al barco por la primary key //si
+/**
+ * @swagger
+ * /barcos/id/{id}:
+ *   get:
+ *     summary: Get a barco by ID
+ *     tags: [Barcos]
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         description: ID of the barco
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       '200':
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Barco'
+ *       '400':
+ *         description: Bad request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ */
 router.get('barcos.findby', '/id/:id', async (ctx) => {
   try {
     const barcos = await ctx.orm.Barco.findByPk(ctx.params.id);
@@ -37,7 +126,39 @@ router.get('barcos.findby', '/id/:id', async (ctx) => {
     ctx.body = error;
   }
 });
-// busca todos los barcos con un tipo determinado // si
+
+/**
+ * @swagger
+ * /barcos/tipo/{tipo}:
+ *   get:
+ *     summary: Get barcos by tipo
+ *     tags: [Barcos]
+ *     parameters:
+ *       - name: tipo
+ *         in: path
+ *         description: Tipo of the barcos
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       '200':
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Barco'
+ *       '400':
+ *         description: Bad request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ */
 router.get('barcos.show', '/tipo/:tipo', async (ctx) => {
   try {
     const barcos = await ctx.orm.Barco.findAll({ where: { tipo: ctx.params.tipo } });
@@ -48,7 +169,39 @@ router.get('barcos.show', '/tipo/:tipo', async (ctx) => {
     ctx.body = error;
   }
 });
-// busca todos los barcos de un id_jugador determinado
+
+/**
+ * @swagger
+ * /barcos/jugador/{id_jugador}:
+ *   get:
+ *     summary: Get barcos by id_jugador
+ *     tags: [Barcos]
+ *     parameters:
+ *       - name: id_jugador
+ *         in: path
+ *         description: ID of the jugador
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       '200':
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Barco'
+ *       '400':
+ *         description: Bad request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ */
 router.get('barcos.show', '/jugador/:id_jugador', async (ctx) => {
   try {
     const barcos = await ctx.orm.Barco.findAll({ where: { id_jugador: ctx.params.id_jugador } });
@@ -60,7 +213,36 @@ router.get('barcos.show', '/jugador/:id_jugador', async (ctx) => {
   }
 });
 
-// busca los datos del jugador que es dueño un barco con un id determinado
+/**
+ * @swagger
+ * /barcos/jugador_dueno/{id}:
+ *   get:
+ *     summary: Get the jugador who owns the barco
+ *     tags: [Barcos]
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         description: ID of the barco
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       '200':
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Jugador'
+ *       '400':
+ *         description: Bad request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ */
 router.get('barcos.show', '/jugador_dueno/:id', async (ctx) => {
   const barco = await ctx.orm.Barco.findByPk(ctx.params.id);
   try {
@@ -76,31 +258,42 @@ router.get('barcos.show', '/jugador_dueno/:id', async (ctx) => {
     ctx.body = error;
   }
 });
-// //busca todos los barcos con una accion determinada // Barcos no tiene acción
-// router.get("barcos.show", "/accion/:accion", async (ctx) => {
-//     try{
-//         const barcos = await ctx.orm.Barco.findAll({where :{accion: ctx.params.accion}});
-//         ctx.status = 200;
-//         ctx.body = barcos;
-//     } catch(error){
-//         ctx.status = 400;
-//         ctx.body = error;
-//     }
-// });
 
-// //busca muestra los barcos que estan en una tablero con el id de la tablero // Barcos no tiene id_tablero
-// router.get("barcos.show", "/barcos_tablero/:id_tablero", async (ctx) => {
-//     try{
-//         const barcos = await ctx.orm.Barco.findAll({where :{id_tablero: ctx.params.id_tablero}});
-//         ctx.status = 200;
-//         ctx.body = barcos;
-//     } catch(error){
-//         ctx.status = 400;
-//         ctx.body = error;
-//     }
-// });
-
-// encontrar posicion de un barco por su id // si
+/**
+ * @swagger
+ * /barcos/posicion/{id}:
+ *   get:
+ *     summary: Get the position of a barco by ID
+ *     tags: [Barcos]
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         description: ID of the barco
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       '200':
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   posicion:
+ *                     type: string
+ *       '400':
+ *         description: Bad request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ */
 router.get('barcos.show', '/posicion/:id', async (ctx) => {
   try {
     const barcos = await ctx.orm.Barco.findAll({
@@ -115,33 +308,6 @@ router.get('barcos.show', '/posicion/:id', async (ctx) => {
   }
 });
 
-// //actualizar coordenadas de un barco con su id
-// router.put("barcos.update", "/posicion_update/:id", async (ctx) => {
-//     try {
-//         const { id } = ctx.params;
-
-//         const barco = await ctx.orm.barco.findByPk(id);
-//         if (!barco) {
-//             ctx.status = 404;
-//             ctx.body = { error: 'barco no encontrado' };
-//             return;
-//         }
-
-//         const posicionAntigua = barco.posicion;
-//         const [x, y] = posicionAntigua
-//             .slice(1, -1) // Eliminar los paréntesis
-//             .split(",") // Dividir las coordenadas
-//             .map(coordenada => parseInt(coordenada)); // Convertir a números enteros
-
-//         const nuevaPosicion = `(${x + 1},${y + 1})`; //aqui se le puede sumar lo que queramos
-
-//         await barco.update({ posicion: nuevaPosicion });
-//         ctx.status = 200;
-//         ctx.body = { message: 'Posición del jugador actualizada correctamente' };
-//     } catch (error) {
-//         ctx.status = 400;
-//         ctx.body = error;
-//     }
-// });
+// Define your other routes for barcos here using the Swagger annotations
 
 module.exports = router;

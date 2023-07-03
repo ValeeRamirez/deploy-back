@@ -97,6 +97,13 @@ yarn sequelize-cli db:seed:undo:all
 
 ### Iniciar una partida:
 
+Antes de probar debemos asegurarnos que todas las funcionalidades de yarn estén presentes, corriendo
+
+```bash
+yarn
+```
+
+Ahora podemos probar nuestro backend
 
 ```bash
 yarn dev
@@ -104,7 +111,151 @@ yarn dev
 
 :thread: Acá se conecta a localhost:3000
 
+### Swagger:
+
+:rocket: Para ver la documentación de todas las funcionalidades, debe entrar a 
+
+```bash
+localhost:3000/doc-api
+```
+
+:point_right: Acá podemos ver cómo funcionan todas las request de tipo GET y de tipo PUT.
+
+:postbox: Las request de tipo PUT están explicadas, pero no lograron ser implementadas directamente en swagger, por lo que se explicarán acá.
+
+
+##### :jigsaw: POST/partidas:
+
+Se debería entregar parámetros del tipo:
+
+```bash
+{    codigo: INTEGER,
+    creador: STRING,
+    turno: STRING,
+    ganador: STRING,
+}
+```
+
+Un ejemplo de input puede ser:
+
+```bash
+{    codigo: 123789,
+    creador: nicolelarenas, 
+    turno: nicolelarenas,
+    ganador: valentinaramirez,
+}
+```
+
+##### :flower_playing_cards: POST/casillas:
+
+Se debería entregar parámetros del tipo:
+
+```bash
+{   tipo: STRING,
+    accion: STRING,
+    id_tablero: INTEGER,
+    coordenadas: STRING,
+    front: STRING,
+    back: STRING,
+    id_casilla: INTEGER,
+}
+```
+
+Un ejemplo de input puede ser:
+
+```bash
+{ 
+    tipo: 'Madera',
+    accion: 'Recolectar',
+    id_tablero: tablero[0],
+    coordenadas: '(6,0)',
+    front: '/../../public/Imagenes/Forest.png',
+    back: '/../../public/Imagenes/Collect.png',
+    id_casilla: 37,
+}
+```
+
+##### :mahjong: POST/tableros:
+
+```bash
+{   id_partida: INTEGER,
+}
+```
+
+Un ejemplo de input puede ser:
+
+```bash
+{ 
+    id_partida: 8,
+}
+```
+
+##### :wood: POST/recursos/crear:
+
+```bash
+{ 
+    tipo: STRING,
+    id_jugador: INTEGER,
+}
+```
+
+Un ejemplo de input puede ser:
+
+```bash
+{ 
+    tipo: 'Madera',
+    id_jugador: 1,
+}
+```
+
+##### :man_technologist: POST/jugadors:
+
+```bash
+{ 
+    id_usuario: INTEGER,
+    id_partida: INTEGER,
+    tipo: STRING,
+    posicion: STRING,
+}
+```
+
+Un ejemplo de input puede ser:
+
+```bash
+{ 
+    id_usuario: 2,
+    id_partida: 3,
+    tipo: 'Principiante',
+    posicion: '(0,3)',
+}
+```
+
+##### :canoe: POST/barcos:
+
+```bash
+{ 
+    id_jugador: INTEGER,
+    tipo: STRING,
+    posicion: STRING,
+}
+```
+
+Un ejemplo de input puede ser:
+
+```bash
+{ 
+    id_jugador: 6,
+    tipo: 'Nivel1',
+    posicion: '(0,5)',
+}
+```
+
+#### Faltan los de Authentication. 
+
+
 ### Pruebas 
+
+Vamos a explicar algunas de las funcionalidades más útiles por si acaso.
 
 Primero puedes ver los usuarios conectados:
 
@@ -149,7 +300,4 @@ Ahi se actualizan los recursos del jugador dependiendo de la acción de la casil
 Podemos ver cuantos recursos en total tiene un jugador con:
 
 ```GET http://localhost:3000/recursos/jugador/$id_jugador$```
-
-
-Existen muchas más funcionalidades, que pueden ser útiles, pero que no son necesarias para una simulación de juego actualmente, cómo ver el estado de los barcos, etc. Aún así se pueden ver y probar, revisando el archivo en la carpeta routes de cada modelo. Tienen un comentario de qué hace cada uno :smiley:
 

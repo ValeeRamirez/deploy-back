@@ -21,6 +21,9 @@ module.exports = (sequelize, DataTypes) => {
     accion: DataTypes.STRING,
     id_tablero: DataTypes.INTEGER,
     coordenadas: DataTypes.STRING,
+    front: DataTypes.STRING,
+    back: DataTypes.STRING,
+    id_casilla: DataTypes.INTEGER,
   }, {
     sequelize,
     modelName: 'Casilla',

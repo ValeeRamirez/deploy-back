@@ -1,9 +1,41 @@
+/**
+ * @swagger
+ * tags:
+ *   name: Dado
+ *   description: API endpoints for managing dados
+ */
+
 const Router = require('koa-router');
 const { Casilla } = require('../models');
 const { Recurso } = require('../models');
 
 const router = new Router();
 
+/**
+ * @swagger
+ * /dados:
+ *   get:
+ *     summary: Get all dados
+ *     tags: [Dados]
+ *     responses:
+ *       '200':
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Dado'
+ *       '400':
+ *         description: Bad request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ */
 // mostrar todos los dados
 router.get('dados.list', '/', async (ctx) => {
   try {
@@ -16,6 +48,39 @@ router.get('dados.list', '/', async (ctx) => {
   }
 });
 
+/**
+ * @swagger
+ * /dados/lanzar_dado/{id}:
+ *   put:
+ *     summary: Update dado by ID and roll it
+ *     tags: [Dados]
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         description: ID of the dado
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       '200':
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *       '400':
+ *         description: Bad request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ */
 // actualizar dado por su id partida
 router.put('dado.update', '/lanzar_dado/:id', async (ctx) => {
   try {

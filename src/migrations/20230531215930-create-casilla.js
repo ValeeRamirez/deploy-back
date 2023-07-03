@@ -21,6 +21,12 @@ module.exports = {
       coordenadas: {
         type: Sequelize.STRING,
       },
+      front: {
+        type: Sequelize.STRING,
+      },
+      back: {
+        type: Sequelize.STRING,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
@@ -28,6 +34,9 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
+      },
+      id_casilla: {
+        type: Sequelize.INTEGER,
       },
     });
   },
