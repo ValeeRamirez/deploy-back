@@ -11,7 +11,7 @@ const router = new Router();
 
 /**
  * @swagger
- * /:
+ * /tableros:
  *   post:
  *     summary: Create a new tablero
  *     tags: [Tableros]
@@ -45,7 +45,7 @@ router.post('tableros.create', '/', async (ctx) => {
 
 /**
  * @swagger
- * /:
+ * /tableros:
  *   get:
  *     summary: Get all tableros
  *     tags: [Tableros]
@@ -75,7 +75,7 @@ router.get('tableros.list', '/', async (ctx) => {
 
 /**
  * @swagger
- * /id/{id}:
+ * /tableros/id/{id}:
  *   get:
  *     summary: Get a tablero by its ID
  *     tags: [Tableros]
@@ -110,7 +110,7 @@ router.get('tableros.findby', '/id/:id', async (ctx) => {
 
 /**
  * @swagger
- * /partida/{id_partida}:
+ * /tableros/partida/{id_partida}:
  *   get:
  *     summary: Get all tableros in a partida
  *     tags: [Tableros]

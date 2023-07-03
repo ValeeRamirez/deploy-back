@@ -1,19 +1,32 @@
+/**
+ * @swagger
+ * tags:
+ *   name: Usuarios
+ *   description: API endpoints for managing usuarios
+ */
+
 const Router = require('koa-router');
 
 const router = new Router();
 
-// // crea un usuario
-// router.post('usuarios.create', '/', async (ctx) => {
-//   try {
-//     const usuario = await ctx.orm.Usuario.create(ctx.request.body);
-//     ctx.status = 201;
-//     ctx.body = usuario;
-//   } catch (error) {
-//     ctx.status = 400;
-//     ctx.body = error;
-//   } 
-// });
-
+/**
+ * @swagger
+ * /usuarios:
+ *   get:
+ *     summary: Get all usuarios
+ *     tags: [Usuarios]
+ *     responses:
+ *       200:
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Usuario'
+ *       400:
+ *         description: Bad Request
+ */
 // muestra todos los usuarios creados
 router.get('usuarios.list', '/', async (ctx) => {
   try {
@@ -26,6 +39,29 @@ router.get('usuarios.list', '/', async (ctx) => {
   }
 });
 
+/**
+ * @swagger
+ * /usuarios/id/{id}:
+ *   get:
+ *     summary: Get a usuario by its ID
+ *     tags: [Usuarios]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID of the usuario
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Usuario'
+ *       400:
+ *         description: Bad Request
+ */
 // encuentra a un usuario por su id
 router.get('usuarios.findby', '/id/:id', async (ctx) => {
   try {
@@ -38,6 +74,29 @@ router.get('usuarios.findby', '/id/:id', async (ctx) => {
   }
 });
 
+/**
+ * @swagger
+ * /usuarios/id2/{id}:
+ *   get:
+ *     summary: Get a usuario by its ID
+ *     tags: [Usuarios]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID of the usuario
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       300:
+ *         description: Multiple Choices
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Usuario'
+ *       400:
+ *         description: Bad Request
+ */
 // encuentra a un usuario por su id
 router.get('usuarios.show', '/id2/:id', async (ctx) => {
   try {

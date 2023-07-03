@@ -118,6 +118,7 @@ yarn dev
 ```bash
 localhost:3000/doc-api
 ```
+En swagger, se muestran muchos errores, pero estos no tienen un verdadero efecto sobre el funcionamiento de la página, por lo que solo hay que apretar el botón que dice "Hide".
 
 :point_right: Acá podemos ver cómo funcionan todas las request de tipo GET y de tipo PUT.
 
@@ -301,3 +302,15 @@ Podemos ver cuantos recursos en total tiene un jugador con:
 
 ```GET http://localhost:3000/recursos/jugador/$id_jugador$```
 
+
+### Usuarios para probar (que ya estan creados):
+
+mail: valtiaramirez@gmail.com
+contraseña: vale1234
+
+mail: nicolitarenas@gmail.com
+contraseña: nico1235
+
+### Link para la versión online (deploy):
+
+```https://web-api-uig9.onrender.com/```
